@@ -20,6 +20,12 @@ function App() {
       return;
     }
 
+    ethereum.on('accountsChanged', async(accounts:string[]) =>{
+      setUserTokens([]);
+      const userTokens = await getUserTokens(accounts[0]);
+        setUserTokens(userTokens as UserToken[]);
+    })
+
     try {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       if (accounts.length !== 0) {
