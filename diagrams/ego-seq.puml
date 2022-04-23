@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+title Authentication
+
+actor user
+participant dapp as "Ego Dapp"
+participant ipfs as "IPFS"
+participant gate
+participant authority
+participant NFT
+
+user -> dapp: getPubKey(authority)
+user -> user: encryptWith(authPubKey, file, metadata)
+user -> dapp: store(encryptedFile)
+dapp -> ipfs: store encryptedFile
+gate -> authority: send(encryptedFileHash)
+authority -> authority: authenticate(file)
+alt ok
+authority -> authority:sign(file)
+gate <- authority: signature
+gate -> dapp: return signature
+dapp -> user: signature
+user -> user: encryptWith(userPubKey, signature, file, metadata)
+user -> dapp: submit(encrypted)
+dapp -> ipfs: store encryptedFile
+dapp -> NFT **: create
+dapp -> user: return tokenId
+end
+
+newpage Verification
+
+user -> requester: getPubKey()
+user -> user: get(encryptedFile)
+user -> user: decryptWith(userPrivKey, file)
+user -> user: encryptWith(reqPubKey, file, metadata)
+user -> dapp: store(encryptedFile)
+dapp -> ipfs: store encryptedFile
+user -> requester: send(encryptedHash)
+requester -> ipfs: retrieve(encryptedHash)
+requester -> requester: decryptWith(reqPrivKey, file)
+requester -> requester: extractSignature(decryptedFile)
+requester -> dapp: getPubKey(authority)
+requester -> requester: decryptWith(authPubKey, signature)
+requester -> user: OK
+
+@enduml
