@@ -6,6 +6,7 @@ import { userCurrentAccount, UserToken, userTokens } from './state/atoms';
 import { UploadForm } from './components/uploadForm';
 import { getUserTokens } from './utils/web3';
 import { UserTokens } from './components/userTokens';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [_, setCurrentAddress] = useRecoilState(userCurrentAccount);

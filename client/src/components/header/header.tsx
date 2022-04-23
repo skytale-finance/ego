@@ -13,7 +13,7 @@ export const Header = ()=>{
         }
     };
 
-    return <header style={styles.header}>
+    return <header style={styles.header} className="jumbotron">
         <div><Brand/></div>
         <div>{!currentAddress && <ConnectWalletButton/>}</div>
         <div>{currentAddress && `${currentAddress}`}</div>
