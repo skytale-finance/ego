@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { userCurrentAccount } from "../../state/atoms";
 import { Brand } from "./brand";

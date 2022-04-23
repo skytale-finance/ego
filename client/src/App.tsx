@@ -3,6 +3,7 @@ import './App.css';
 import { Header } from './components/header/header';
 import { useRecoilState } from 'recoil';
 import { userCurrentAccount } from './state/atoms';
+import { UploadForm } from './components/uploadForm';
 
 function App() {
   const [_, setCurrentAddress] = useRecoilState(userCurrentAccount);
@@ -34,6 +35,7 @@ function App() {
     <div className="App">
       <Header />
       <hr />
+      <UploadForm/>
     </div>
   );
 }
