@@ -12,7 +12,7 @@ export const UserTokens = () => {
 
         for (const key of keys) {
             if(key==='passPhrase') continue;
-            
+
             descriptions.push(`${key}: ${data[key]}`)
         }
         return descriptions;
@@ -28,7 +28,7 @@ export const UserTokens = () => {
                         <Card.Body>
                             <Card.Title>{token.name}</Card.Title>
                             {
-                                descriptionToPrettier(token.description).map(desc => <Card.Text>{desc}</Card.Text>)
+                                descriptionToPrettier(token.description).map(desc => <Card.Text key={desc}>{desc}</Card.Text>)
                             }
                         </Card.Body>
                     </Card>)

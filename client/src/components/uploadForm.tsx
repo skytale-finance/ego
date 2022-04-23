@@ -9,9 +9,19 @@ export const UploadForm = () => {
     const [document, setDocument] = useState<File | null>(null);
     const [documentError, setDocumentError] = useState<string | null>(null);
     const currentAddress = useRecoilValue(userCurrentAccount);
+    const [fileBuffer,setFileBuffer]= useState<ArrayBuffer>();
 
     const onDocmentHandler = (event: any) => {
         setDocument(event.target.files[0])
+
+        const reader = new FileReader()
+
+        reader.onload= function(){
+            console.log(reader.result);
+            setFileBuffer(reader.result as ArrayBuffer);
+        }
+
+        reader.readAsArrayBuffer(event.target.files[0]);
     }
 
     const encryptAndUpload = async (values: any) => {
