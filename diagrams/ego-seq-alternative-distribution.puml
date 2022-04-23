@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+title Distribution
+
+actor user
+participant gate
+participant requester
+participant ipfs as "IPFS"
+participant authority
+
+user -> gate: getSingleUseUrl(passphrase, fileHash)
+user -> requester: send(singleUseUrl, signature)
+requester -> ipfs: get(file)
+requester -> authority: getPubKey()
+requester -> requester: verifySignature(signature)
+requester -> user: OK
+
+@enduml
