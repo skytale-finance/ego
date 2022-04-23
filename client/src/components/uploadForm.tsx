@@ -91,6 +91,3 @@ export const UploadForm = () => {
         </Formik>
     </div>
 }
-
-
-"{"authority":"Federal Identity Agency","passPhrase":"sdasd"}"
