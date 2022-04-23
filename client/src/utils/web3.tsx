@@ -33,6 +33,7 @@ export const mintNFT = async (fileHash: string, userAddress: string) => {
     const nftContract = getNFTContract();
     const tx = await nftContract.mintNFT(fileHash);
     const response = await tx.wait();
+    console.log(response);
 }
 
 export const getUserTokens = async (userAddress: string) => {
