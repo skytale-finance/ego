@@ -6,8 +6,8 @@ autonumber
 title Authentication
 
 actor user
-participant ipfs as "IPFS"
 participant gate
+participant ipfs as "IPFS"
 participant authority
 participant NFT
 
@@ -17,23 +17,15 @@ gate -> ipfs: store encryptedFile
 user -> gate: submit(passphrase, encryptedFile)
 gate -> gate: generateSingleUsePubKey(passphrase)
 gate -> user: send(singleUseUrl)
+user -> authority: send(singleUseUrl)
 authority -> authority: authenticate(file)
 alt ok
 authority -> authority:sign(file)
 gate <- authority: signature
 gate -> gate: encryptWith(passphrase, signature, file, metadata)
-gate -> gate: burn(singleUsePubKey)
 gate -> ipfs: store(encryptedFile)
 gate -> NFT **: create
 gate -> user: return tokenId
 end
-
-newpage Verification
-
-user -> gate: getSingleUseUrl(passphrase, fileHash)
-user -> requester: send(singleUseUrl, signature)
-requester -> ipfs: get(file)
-requester -> requester: verifySignature(signature)
-requester -> user: OK
 
 @enduml
