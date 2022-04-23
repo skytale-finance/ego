@@ -1,13 +1,26 @@
 import express from "express";
+import { Request, Response } from "express";
 import { createProxyMiddleware, responseInterceptor } from "http-proxy-middleware";
 import * as Buffer from "buffer";
 import url from "url"
-import { decryptFile } from "./services/files";
+import { decryptFile, generateUrl } from "./services/files";
 const IPFS_URL = "https://ipfs.io";
 
 const app = express()
 
-app.use(createProxyMiddleware({
+app.post("/file/:hash/:name", async (req: Request, res: Response) => {
+  const passphrase = req.headers["passphrase"] as string;
+  console.log(`passphrase: ${passphrase}`);
+  if (!passphrase) {
+    res.status(400).json({error: "no credentials"});
+    return;
+  }
+  const url = await generateUrl(req.url, passphrase);
+  res.status(200).send(url);
+  return;
+});
+
+app.get("/file/:hash/:name", createProxyMiddleware({
     target: IPFS_URL,
     changeOrigin: true,
     pathRewrite: {

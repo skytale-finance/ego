@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/skytale-finance/ego#readme",
   "dependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "crypto-js": "^4.1.1",
     "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.6"
   },

@@ -18,7 +18,18 @@ const url_1 = __importDefault(require("url"));
 const files_1 = require("./services/files");
 const IPFS_URL = "https://ipfs.io";
 const app = (0, express_1.default)();
-app.use((0, http_proxy_middleware_1.createProxyMiddleware)({
+app.post("/file/:hash/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const passphrase = req.headers["passphrase"];
+    console.log(`passphrase: ${passphrase}`);
+    if (!passphrase) {
+        res.status(400).json({ error: "no credentials" });
+        return;
+    }
+    const url = yield (0, files_1.generateUrl)(req.url, passphrase);
+    res.status(200).send(url);
+    return;
+}));
+app.get("/file/:hash/:name", (0, http_proxy_middleware_1.createProxyMiddleware)({
     target: IPFS_URL,
     changeOrigin: true,
     pathRewrite: {
@@ -33,7 +44,6 @@ app.use((0, http_proxy_middleware_1.createProxyMiddleware)({
                 const key = query === null || query === void 0 ? void 0 : query.split("=")[1];
                 if (!key)
                     throw { message: "key not defined" };
-                console.log(`key = ${key}`);
                 return (0, files_1.decryptFile)(buffer, key);
             }
             res.statusCode = 500;
