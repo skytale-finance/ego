@@ -1,10 +1,14 @@
 import { Form, Formik } from "formik";
 import { useState } from "react"
+import { useRecoilValue } from "recoil";
+import { userCurrentAccount } from "../state/atoms";
+import { mintNFT } from "../utils/web3";
 import { uploadToWeb3Storage } from "../utils/web3Store";
 
 export const UploadForm = () => {
     const [document, setDocument] = useState<File | null>(null);
     const [documentError, setDocumentError] = useState<string | null>(null);
+    const currentAddress = useRecoilValue(userCurrentAccount);
 
     const onDocmentHandler = (event: any) => {
         setDocument(event.target.files[0])
@@ -14,7 +18,7 @@ export const UploadForm = () => {
         try {
             const { authority, passPhrase } = values;
             const response = await uploadToWeb3Storage(document as File, "TESTNFT", JSON.stringify({ authority, passPhrase }));
-            console.log(response);
+            mintNFT(response.ipnft, currentAddress || '');
         } catch (error) {
             console.log(error);
         }
