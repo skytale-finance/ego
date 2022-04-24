@@ -11,7 +11,7 @@ export const UserTokens = () => {
         const keys = Object.keys(data);
 
         for (const key of keys) {
-            if(key==='passPhrase') continue;
+            if (key === 'passPhrase') continue;
 
             descriptions.push(`${key}: ${data[key]}`)
         }
@@ -20,6 +20,8 @@ export const UserTokens = () => {
 
     return <div>
         <b>My Documents:</b>
+        <br />
+        {(!userTokensList || userTokensList.length === 0) && 'You have no document NFT.'}
         <Row >
             {
                 userTokensList && userTokensList.map(token =>
@@ -34,5 +36,6 @@ export const UserTokens = () => {
                     </Card>)
             }
         </Row>
+        <hr />
     </div>
 }
